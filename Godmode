@@ -1,0 +1,23 @@
+local Pass = getrenv()._G.Pass
+game.StarterGui:SetCoreGuiEnabled(Enum.SetCoreGuiType.Chat);
+game:GetService("ReplicatedStorage").Remotes.Fuctions:InvokeServer({Pass,"ChangeSetting","MorphEnabled",true});
+game.Players.LocalPlayer.PlayerGui.CharacterSelection:WaitForChild("Character").Value = "Chara"
+task.wait(1)
+game.Players.LocalPlayer.Character:WaitForChild("ForceField"):Destroy()
+game.Players.LocalPlayer.Character.Head:WaitForChild("HealthBar"):Destroy()
+
+task.wait(.5)
+
+local args = {
+    [1] = Pass,
+    [2] = "Damage",
+    [3] = math.huge,
+    [4] = game.Players.LocalPlayer.Character
+}
+game.ReplicatedStorage.Remotes.Events:FireServer(args)
+
+game.Players.LocalPlayer.Character.Humanoid:GetPropertyChangedSignal("Health"):Connect(function()
+    if game.Players.LocalPlayer.Character.Humanoid.Health == 0 then
+        game.Players.LocalPlayer.Character.Humanoid.Health = 1
+    end
+end)
